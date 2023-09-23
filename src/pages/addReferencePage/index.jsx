@@ -91,6 +91,7 @@ const addReferencePage = () => {
         formData
       );
       message.success(addData?.data?.message);
+      setReferenceName("");
       setCoverImage("");
       setİmages([]);
       getAllReference();
@@ -200,6 +201,7 @@ const addReferencePage = () => {
       >
         <Form.Item label="Referansın Adı:">
           <Input
+            value={name}
             style={{
               padding: "10px",
               fontWeight: "700",

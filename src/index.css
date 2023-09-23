@@ -13,3 +13,28 @@ body {
 * {
   box-sizing: border-box;
 }
+
+.grid-container {
+  columns: 3 200px;
+  column-gap: 1.5rem;
+  width: 100%;
+  padding: 60px 10px;
+}
+
+.grid-container .ant-image {
+  margin: 0 0 1.5rem 0;
+  display: inline-block;
+  width: 100%;
+  border: solid 2px black;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.grid-container .ant-image:hover {
+  border-color: coral;
+}
+
+.grid-container .fa-trash {
+  display: inline;
+}

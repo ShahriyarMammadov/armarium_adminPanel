@@ -67,6 +67,8 @@ const AddDoorPage = () => {
         formData
       );
       message.success(data.message);
+      setId("");
+      setCoverImage("");
       getAllDoor();
       setLoading(false);
     } catch (error) {
@@ -157,6 +159,7 @@ const AddDoorPage = () => {
       >
         <Form.Item label="Qapının İD-si">
           <Input
+            value={id}
             style={{
               padding: "10px",
               fontWeight: "700",

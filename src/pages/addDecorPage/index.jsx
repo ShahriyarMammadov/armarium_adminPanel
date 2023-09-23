@@ -142,6 +142,7 @@ const addDecorPage = () => {
         formData
       );
       message.success(data.message);
+      setDecorName("");
       setCoverImage("");
       setİmages([]);
       setDecorDescription("");
@@ -247,6 +248,7 @@ const addDecorPage = () => {
       >
         <Form.Item label="Dekorun Adı:">
           <Input
+            value={name}
             style={{
               padding: "10px",
               fontWeight: "700",
@@ -258,6 +260,7 @@ const addDecorPage = () => {
         </Form.Item>
         <Form.Item label="Dekor Haqqında Məlumat: ">
           <TextArea
+            value={description}
             style={{ height: "100px" }}
             onChange={(e) => {
               setDecorDescription(e.target.value);

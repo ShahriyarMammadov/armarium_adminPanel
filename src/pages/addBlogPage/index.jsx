@@ -187,6 +187,7 @@ const AddBlogPage = () => {
       >
         <Form.Item label="Bloqun Adı:">
           <Input
+            value={name}
             style={{
               padding: "10px",
               fontWeight: "700",
@@ -208,6 +209,7 @@ const AddBlogPage = () => {
         </Form.Item>
         <Form.Item label="Bloq Məlumatı: ">
           <TextArea
+            value={description}
             style={{ height: "100px" }}
             onChange={(e) => {
               setBlogDescription(e.target.value);
@@ -226,11 +228,7 @@ const AddBlogPage = () => {
           </p>
         </Form.Item>
         <Form.Item label="Örtük Şəkli: ">
-          <input
-            type="file"
-            name="coverImage"
-            onChange={handleFileChange}
-          />
+          <input type="file" name="coverImage" onChange={handleFileChange} />
         </Form.Item>
 
         <Form.Item label="Əlavə Edilsin?">

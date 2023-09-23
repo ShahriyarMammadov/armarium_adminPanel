@@ -14,7 +14,7 @@ const AddNewsPage = () => {
   const [coverImage, setCoverImage] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const [sliceCount, setSliceCount] = useState(5);
+  const [sliceCount, setSliceCount] = useState(6);
 
   const [news, setAllNews] = useState([]);
 
@@ -101,71 +101,89 @@ const AddNewsPage = () => {
               <h1>HEÇ BİR XƏBƏR PAYLAŞMAMIŞSINIZ.</h1>
             </>
           ) : (
-            <div className="cards">
-              {news?.map((e, i) => {
-                return (
-                  <div className="card" key={i}>
-                    <div className="image">
-                      <img
-                        src={`https://armariumbackend-production.up.railway.app/images/${e?.coverImage}`}
-                        alt={`${e?.name}`}
-                      />
-                    </div>
-                    <div className="text">
-                      <div
-                        className="headerText"
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
-                        <h5>{e?.name}</h5>
-                        <Popconfirm
-                          title="XƏBƏRLƏR"
-                          description="Xəbər Həmişəlik Silinsin?"
-                          onConfirm={() => {
-                            deleteNews(e?._id);
+            <>
+              <div className="cards">
+                {news?.slice(0, sliceCount).map((e, i) => {
+                  return (
+                    <div className="card" key={i}>
+                      <div className="image">
+                        <img
+                          src={`https://armariumbackend-production.up.railway.app/images/${e?.coverImage}`}
+                          alt={`${e?.name}`}
+                        />
+                      </div>
+                      <div className="text">
+                        <div
+                          className="headerText"
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
                           }}
-                          onCancel={cancel}
-                          okText="SİL"
-                          cancelText="BAĞLA"
                         >
-                          <i
-                            className="fa-regular fa-trash-can"
-                            style={{
-                              color: "red",
-                              cursor: "pointer",
-                              fontSize: "24px",
+                          <h5>{e?.name}</h5>
+                          <Popconfirm
+                            title="XƏBƏRLƏR"
+                            description="Xəbər Həmişəlik Silinsin?"
+                            onConfirm={() => {
+                              deleteNews(e?._id);
                             }}
-                          ></i>
-                        </Popconfirm>
-                      </div>
-                      <div className="date">
-                        <i className="fa-regular fa-calendar-days"></i>{" "}
-                        {e?.date?.slice(0, 10)}
-                      </div>
-                      <hr />
+                            onCancel={cancel}
+                            okText="SİL"
+                            cancelText="BAĞLA"
+                          >
+                            <i
+                              className="fa-regular fa-trash-can"
+                              style={{
+                                color: "red",
+                                cursor: "pointer",
+                                fontSize: "24px",
+                              }}
+                            ></i>
+                          </Popconfirm>
+                        </div>
+                        <div className="date">
+                          <i className="fa-regular fa-calendar-days"></i>{" "}
+                          {e?.date?.slice(0, 10)}
+                        </div>
+                        <hr />
 
-                      <div className="detailTextSlice">
-                        <p>
-                          {" "}
-                          {e?.description
-                            ?.slice(0, 50)
-                            ?.split("<br />")
-                            ?.map((line, lineIndex) => (
-                              <React.Fragment key={lineIndex}>
-                                {line}. . .
-                                <br />
-                              </React.Fragment>
-                            ))}
-                        </p>
+                        <div className="detailTextSlice">
+                          <p>
+                            {" "}
+                            {e?.description
+                              ?.slice(0, 50)
+                              ?.split("<br />")
+                              ?.map((line, lineIndex) => (
+                                <React.Fragment key={lineIndex}>
+                                  {line}. . .
+                                  <br />
+                                </React.Fragment>
+                              ))}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+
+              <button
+                style={{
+                  display: "block",
+                  margin: "0 auto",
+                  marginBottom: "20px",
+                  padding: "10px 15px",
+                  cursor: "pointer",
+                  fontWeight: "700",
+                }}
+                onClick={() => {
+                  setSliceCount(sliceCount + 6);
+                }}
+              >
+                DAHA ÇOX
+              </button>
+            </>
           )}
         </>
       )}

@@ -16,6 +16,7 @@ const AddVacancyPage = () => {
 
   const getAllVacancies = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get(
         `https://armariumbackend-production.up.railway.app/vacancy/allVacancy`
       );
@@ -156,6 +157,7 @@ const AddVacancyPage = () => {
       >
         <Form.Item label="Vakansiyanın Adı:">
           <Input
+            value={name}
             className="adminAddedInput"
             style={{
               padding: "10px",
@@ -168,6 +170,7 @@ const AddVacancyPage = () => {
         </Form.Item>
         <Form.Item label="Tələblər: ">
           <TextArea
+            value={description}
             style={{ height: "100px" }}
             onChange={(e) => {
               setVacancyDescription(e.target.value);
