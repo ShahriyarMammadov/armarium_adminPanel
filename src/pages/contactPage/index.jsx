@@ -2,12 +2,34 @@ import React, { useEffect, useState } from "react";
 import "./index.scss";
 import axios from "axios";
 import LoadingComponent from "../../components/loading";
+import { Avatar, List, Radio, Space } from "antd";
 
 const ContactPage = () => {
   const [contactMe, setContactMe] = useState([]);
   const [writeToUs, setWriteToUs] = useState([]);
   const [sliceCount, setSliceCount] = useState(5);
   const [sliceCountTel, setsliceCountTel] = useState(5);
+
+  const data = [
+    {
+      title: "Ant Design Title 1",
+    },
+    {
+      title: "Ant Design Title 2",
+    },
+    {
+      title: "Ant Design Title 3",
+    },
+    {
+      title: "Ant Design Title 4",
+    },
+  ];
+
+  const [position, setPosition] = useState("bottom");
+  const [align, setAlign] = useState("center");
+
+  const positionOptions = ["top", "bottom", "both"];
+  const alignOptions = ["start", "center", "end"];
 
   const [loading, setLoading] = useState(true);
 
@@ -49,26 +71,42 @@ const ContactPage = () => {
         ) : contactMe.length == 0 ? (
           <h3>TELEFON NÖMRƏSİ YAZILMIYIB.</h3>
         ) : (
-          <div className="contact">
-            {contactMe?.slice(0, sliceCountTel).map((e, i) => {
-              return (
-                <div key={i} className="phone">
-                  <p>{e?.phoneNumber}</p>
-                  <span>Tarix:</span> {e?.date}
-                </div>
-              );
-            })}
-          </div>
-        )}
-
-        {contactMe.length < 4 ? null : (
-          <button
-            onClick={() => {
-              setsliceCountTel(sliceCountTel + 5);
+          <List
+            pagination={{
+              position,
+              align,
             }}
-          >
-            DAHA ÇOX
-          </button>
+            dataSource={contactMe}
+            renderItem={(item, index) => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={
+                    <Avatar
+                      src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`}
+                    />
+                  }
+                  title={<a href={`mailto:${item?.email}`}>{item?.email}</a>}
+                  description={
+                    <>
+                      <span style={{ fontWeight: "700" }}>
+                        Telefon Nömrəsi:{" "}
+                      </span>{" "}
+                      <a
+                        href={`tel:${item?.phoneNumber}`}
+                        style={{ color: "black" }}
+                      >
+                        {item?.phoneNumber}
+                      </a>
+                      <br />
+                      <span style={{ fontWeight: "700" }}>Tarix: </span>{" "}
+                      {item?.date}
+                      <br />
+                    </>
+                  }
+                />
+              </List.Item>
+            )}
+          />
         )}
       </div>
 
@@ -82,38 +120,43 @@ const ContactPage = () => {
         ) : writeToUs.length == 0 ? (
           <h3>MESAJ YAZILMAYIB.</h3>
         ) : (
-          <div className="writeToUs">
-            {writeToUs?.slice(0, sliceCount).map((e, i) => {
-              return (
-                <div key={i} id="writeToUsDatas">
-                  <p>
-                    <span>AD:</span> {e?.fullName}
-                  </p>
-                  <p>
-                    <span>EMAIL:</span> {e?.email}
-                  </p>
-                  <p>
-                    <span>ƏLAQƏ NÖMRƏSİ:</span> {e?.phoneNumber}
-                  </p>
-                  <p>
-                    <span>MƏTN:</span> {e?.text}
-                  </p>
-                  <p>
-                    <span>Tarix:</span> {e?.date}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        )}
-        {writeToUs.length < 4 ? null : (
-          <button
-            onClick={() => {
-              setSliceCount(sliceCount + 5);
-            }}
-          >
-            DAHA ÇOX
-          </button>
+          <>
+            <List
+              pagination={{
+                position,
+                align,
+              }}
+              dataSource={writeToUs}
+              renderItem={(item, index) => (
+                <List.Item>
+                  <List.Item.Meta
+                    avatar={
+                      <Avatar
+                        src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`}
+                      />
+                    }
+                    title={<a href={`mailto:${item?.email}`}>{item?.email}</a>}
+                    description={
+                      <>
+                        <span style={{ fontWeight: "700" }}>Ad və Soyad:</span>{" "}
+                        {item?.fullName}
+                        <br />
+                        {item?.text}
+                        <br />
+                        <span style={{ fontWeight: "700" }}>
+                          Telefon Nömrəsi:{" "}
+                        </span>
+                        {item?.phoneNumber}
+                        <br />
+                        <span style={{ fontWeight: "700" }}>Tarix: </span>{" "}
+                        {item?.date}
+                      </>
+                    }
+                  />
+                </List.Item>
+              )}
+            />
+          </>
         )}
       </div>
     </div>

@@ -173,7 +173,7 @@ const AddDoorPage = () => {
               fontWeight: "900",
             }}
           >
-            ID Yalnız bir qapıya aid olmalıdır.
+            Bir ID Yalnız bir qapıya aid olmalıdır.
           </p>
         </Form.Item>
         <Form.Item label="Qapının Şəkli: ">

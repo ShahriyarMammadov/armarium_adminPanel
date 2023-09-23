@@ -154,7 +154,7 @@ const DashBoard = () => {
           className="site-layout"
           style={{
             marginLeft: 200,
-            backgroundColor: "#5b6668",
+            backgroundColor: "#F1EFEF",
           }}
         >
           <Header
