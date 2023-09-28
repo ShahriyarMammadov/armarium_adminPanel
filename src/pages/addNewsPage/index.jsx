@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./index.scss";
 import { Button, Form, Input, Popconfirm, message } from "antd";
 import axios from "axios";
@@ -13,6 +13,8 @@ const AddNewsPage = () => {
   const [cardDescription, setNewsCardDescription] = useState("");
   const [coverImage, setCoverImage] = useState("");
   const [loading, setLoading] = useState(true);
+
+  const coverImageRef = useRef(null);
 
   const [sliceCount, setSliceCount] = useState(6);
 
@@ -73,7 +75,7 @@ const AddNewsPage = () => {
       formData.append("name", name);
       formData.append("description", description);
       formData.append("cardDescription", cardDescription);
-      const addData = await axios.post(
+      const { data } = await axios.post(
         `https://armariumbackend-production.up.railway.app/news/addNews/${id}`,
         formData
       );
@@ -82,7 +84,9 @@ const AddNewsPage = () => {
       setNewsName("");
       setNewsDescription("");
       setNewsCardDescription("");
+      coverImageRef.current.value = null;
       getAllNews();
+      message.success(data?.message);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -168,21 +172,23 @@ const AddNewsPage = () => {
                 })}
               </div>
 
-              <button
-                style={{
-                  display: "block",
-                  margin: "0 auto",
-                  marginBottom: "20px",
-                  padding: "10px 15px",
-                  cursor: "pointer",
-                  fontWeight: "700",
-                }}
-                onClick={() => {
-                  setSliceCount(sliceCount + 6);
-                }}
-              >
-                DAHA ÇOX
-              </button>
+              {news?.length > 6 && news?.length > sliceCount ? (
+                <button
+                  style={{
+                    display: "block",
+                    margin: "0 auto",
+                    marginBottom: "20px",
+                    padding: "10px 15px",
+                    cursor: "pointer",
+                    fontWeight: "700",
+                  }}
+                  onClick={() => {
+                    setSliceCount(sliceCount + 6);
+                  }}
+                >
+                  DAHA ÇOX
+                </button>
+              ) : null}
             </>
           )}
         </>
@@ -207,6 +213,7 @@ const AddNewsPage = () => {
       >
         <Form.Item label="Xəbərin Adı:">
           <Input
+            value={name}
             style={{
               padding: "10px",
               fontWeight: "700",
@@ -218,6 +225,7 @@ const AddNewsPage = () => {
         </Form.Item>
         <Form.Item label="Xəbər Haqqında Qısa Məlumat:">
           <TextArea
+            value={cardDescription}
             onChange={(e) => {
               setNewsCardDescription(e.target.value);
             }}
@@ -225,6 +233,7 @@ const AddNewsPage = () => {
         </Form.Item>
         <Form.Item label="Ətraflı Məlumat: ">
           <TextArea
+            value={description}
             style={{ height: "100px" }}
             onChange={(e) => {
               setNewsDescription(e.target.value);
@@ -243,7 +252,12 @@ const AddNewsPage = () => {
           </p>
         </Form.Item>
         <Form.Item label="Örtük Şəkli: ">
-          <input type="file" name="coverImage" onChange={handleFileChange} />
+          <input
+            type="file"
+            name="coverImage"
+            onChange={handleFileChange}
+            ref={coverImageRef}
+          />
         </Form.Item>
 
         <Form.Item label="Əlavə Edilsin?">

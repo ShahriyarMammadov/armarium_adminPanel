@@ -60,7 +60,7 @@ const addReferencePage = () => {
       const deleteDecor = await axios.delete(
         `https://armariumbackend-production.up.railway.app/reference/deleteReferanceByName/${name}/${id}`
       );
-      message.success("Dekor uğurla silindi");
+      message.success("Referans uğurla silindi");
       getAllReference();
     } catch (error) {
       console.log(error);

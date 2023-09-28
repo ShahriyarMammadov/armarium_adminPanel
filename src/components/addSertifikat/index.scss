@@ -1,0 +1,30 @@
+#addSertifikat {
+    padding: 20px 0;
+
+    .allSertifikat {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+
+        div {
+            width: 10%;
+            position: relative;
+            min-width: 120px;
+
+            img {
+                width: 100%;
+            }
+
+            i {
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                font-size: 16px;
+                color: red;
+                cursor: pointer;
+            }
+        }
+    }
+}

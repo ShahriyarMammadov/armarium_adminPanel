@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./index.scss";
 import { Button, Form, Input, Popconfirm, message } from "antd";
 import axios from "axios";
@@ -13,7 +13,9 @@ const AddBlogPage = () => {
   const [coverImage, setCoverImage] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const [sliceCount, setSliceCount] = useState(5);
+  const coverImageRef = useRef(null);
+
+  const [sliceCount, setSliceCount] = useState(4);
 
   const [blogs, setAllBlog] = useState([]);
 
@@ -70,15 +72,16 @@ const AddBlogPage = () => {
       formData.append("coverImage", coverImage);
       formData.append("name", name);
       formData.append("description", description);
-      const addData = await axios.post(
+      const { data } = await axios.post(
         `https://armariumbackend-production.up.railway.app/blog/addBlog/${id}`,
         formData
       );
       setBlogName("");
       setCoverImage("");
       setBlogDescription("");
+      coverImageRef.current.value = null;
       getAllBlog();
-      setLoading(false);
+      message.success(data?.message);
     } catch (error) {
       console.log(error);
     }
@@ -153,14 +156,25 @@ const AddBlogPage = () => {
                     </div>
                   );
                 })}
+
                 <div className="sliceBtn">
-                  <button
-                    onClick={() => {
-                      setSliceCount(sliceCount + 5);
-                    }}
-                  >
-                    DAHA ÇOX
-                  </button>
+                  {blogs?.length > 4 && blogs?.length > sliceCount ? (
+                    <button
+                      style={{
+                        display: "block",
+                        margin: "0 auto",
+                        marginBottom: "20px",
+                        padding: "10px 15px",
+                        cursor: "pointer",
+                        fontWeight: "700",
+                      }}
+                      onClick={() => {
+                        setSliceCount(sliceCount + 4);
+                      }}
+                    >
+                      DAHA ÇOX
+                    </button>
+                  ) : null}
                 </div>
               </>
             </div>
@@ -228,7 +242,12 @@ const AddBlogPage = () => {
           </p>
         </Form.Item>
         <Form.Item label="Örtük Şəkli: ">
-          <input type="file" name="coverImage" onChange={handleFileChange} />
+          <input
+            type="file"
+            name="coverImage"
+            onChange={handleFileChange}
+            ref={coverImageRef}
+          />
         </Form.Item>
 
         <Form.Item label="Əlavə Edilsin?">

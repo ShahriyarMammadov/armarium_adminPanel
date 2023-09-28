@@ -15,6 +15,8 @@ import AddReferencePage from "../addReferencePage";
 import AdminHeader from "../../layouts/header";
 import ContactPage from "../contactPage";
 import AddDoorPage from "../addDoorPage";
+import HaqqimizdaEdit from "../haqqimizdaEdit";
+import AddSertifikatPage from "../../components/addSertifikat";
 
 const DashBoard = () => {
   const { Header, Content, Footer, Sider } = Layout;
@@ -62,6 +64,11 @@ const DashBoard = () => {
       title: "Əlaqə",
       icon: <i className="fa-regular fa-id-badge"></i>,
     },
+    {
+      key: "9",
+      title: "Haqqımızda Redaktə et",
+      icon: <i className="fa-regular fa-id-badge"></i>,
+    },
   ]);
 
   const {
@@ -97,6 +104,7 @@ const DashBoard = () => {
             ) : (
               <>
                 <SiteDetailCardsComponent data={userData} />
+                <AddSertifikatPage data={userData} />
                 <UserDetailComponent data={userData} />
                 <CalendarComponent />
               </>
@@ -117,6 +125,8 @@ const DashBoard = () => {
         return <AddReferencePage />;
       case "8":
         return <ContactPage />;
+      case "9":
+        return <HaqqimizdaEdit />;
       default:
         return null;
     }
