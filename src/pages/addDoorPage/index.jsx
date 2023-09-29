@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./index.scss";
 import { Button, Form, Image, Input, Popconfirm, message } from "antd";
 import axios from "axios";
@@ -12,6 +12,8 @@ const AddDoorPage = () => {
   const [loading, setLoading] = useState(true);
 
   const [doors, setAllDoor] = useState([]);
+
+  const coverImageRef = useRef(null);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -69,6 +71,7 @@ const AddDoorPage = () => {
       message.success(data.message);
       setId("");
       setCoverImage("");
+      coverImageRef.current.value = null;
       getAllDoor();
       setLoading(false);
     } catch (error) {
@@ -180,7 +183,12 @@ const AddDoorPage = () => {
           </p>
         </Form.Item>
         <Form.Item label="Qapının Şəkli: ">
-          <input type="file" name="coverImage" onChange={handleFileChange} />
+          <input
+            type="file"
+            name="coverImage"
+            onChange={handleFileChange}
+            ref={coverImageRef}
+          />
         </Form.Item>
         <Form.Item label="Əlavə Edilsin?">
           <Button

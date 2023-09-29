@@ -1,12 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./index.scss";
 import imgg from "../../assets/images/adminuser.png";
-import { Button, Form, message } from "antd";
+import { Button, Form, Popconfirm, message } from "antd";
+import axios from "axios";
 
 const AddSertifikatPage = () => {
   const [slice, setSlice] = useState(16);
   const [coverImage, setCoverImage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [certificate, setCertificate] = useState([]);
 
   const coverImageRef = useRef(null);
 
@@ -15,14 +17,29 @@ const AddSertifikatPage = () => {
     setCoverImage(file);
   };
 
-  const deleteSertifikat = async (name) => {
+  const allSertifikat = async () => {
+    try {
+      try {
+        setLoading(true);
+        const { data } = await axios.get(
+          `https://armariumbackend-production.up.railway.app/about/allCertificate`
+        );
+        setCertificate(data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    } catch (error) {}
+  };
+
+  const deleteSertifikat = async (id) => {
     try {
       setLoading(true);
-      const deleteBlog = await axios.delete(
-        `https://armariumbackend-production.up.railway.app/blog/deleteBlogByName/${name}/${id}`
+      const { data } = await axios.delete(
+        `https://armariumbackend-production.up.railway.app/about/deleteCertificate/${id}`
       );
-      message.success("Blog uğurla silindi");
-      setLoading(false);
+      message.success("Sertifikat uğurla silindi");
+      allSertifikat();
     } catch (error) {
       console.log(error);
     }
@@ -37,126 +54,51 @@ const AddSertifikatPage = () => {
       const formData = new FormData();
       formData.append("coverImage", coverImage);
       const { data } = await axios.post(
-        `https://armariumbackend-production.up.railway.app/blog/addBlog/${id}`,
+        `https://armariumbackend-production.up.railway.app/about/addCertificate`,
         formData
       );
       coverImageRef.current.value = null;
       message.success(data?.message);
-      setLoading(false);
+      allSertifikat();
     } catch (error) {
       console.log(error);
     }
+  };
+
+  useEffect(() => {
+    allSertifikat();
+  }, []);
+
+  const cancel = () => {
+    message.error("SİLİNMƏDİ");
   };
 
   return (
     <div id="addSertifikat">
       <h3>Sertifikatlar</h3>
       <div className="allSertifikat">
-        <div>
-          <img src={imgg} alt="" />
-          <i
-            className="fa-regular fa-trash-can"
-            onClick={() => {
-              deleteSertifikat(e._id);
-            }}
-          ></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
-        <div>
-          <img src={imgg} alt="" />
-          <i className="fa-regular fa-trash-can"></i>
-        </div>
+        {certificate?.map((e) => {
+          return (
+            <div>
+              <img
+                src={`https://armariumbackend-production.up.railway.app/images/${e?.coverImage}`}
+                alt="certificate"
+              />
+              <Popconfirm
+                title="Sertifikat"
+                description="Sertifikat Həmişəlik Silinsin?"
+                onConfirm={() => {
+                  deleteSertifikat(e._id);
+                }}
+                onCancel={cancel}
+                okText="SİL"
+                cancelText="BAĞLA"
+              >
+                <i className="fa-regular fa-trash-can"></i>
+              </Popconfirm>
+            </div>
+          );
+        })}
       </div>
       <Form
         labelCol={{

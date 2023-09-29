@@ -1,22 +1,38 @@
-import { Button, Form } from "antd";
+import { Button, Form, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const MissiyaEdit = () => {
   const [loading, setLoading] = useState(false);
-  const [about, setAbout] = useState("");
+  const [mission, setMission] = useState("");
 
-  const editAbout = async () => {
+  const getMissionData = async () => {
     try {
-      if (about.length === 0) {
+      setLoading(true);
+      const { data } = await axios.get(
+        `https://armariumbackend-production.up.railway.app/about/getMissiya/6515c18559f571344af26918`
+      );
+      setMission(data?.data?.about);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getMissionData();
+  }, []);
+
+  const editMission = async () => {
+    try {
+      if (mission.length === 0) {
         return message.error("Zəhmət olmasa xanaları tam doldurun!");
       }
       setLoading(true);
-      const formData = new FormData();
-      formData.append("about", about);
-      const { data } = await axios.post(
-        `https://armariumbackend-production.up.railway.app/blog/addBlog/${id}`,
-        formData
+      const { data } = await axios.put(
+        `https://armariumbackend-production.up.railway.app/about/editMIssiya/6515c18559f571344af26918`,
+        { about: mission }
       );
       setLoading(false);
       message.success(data?.message);
@@ -32,7 +48,7 @@ const MissiyaEdit = () => {
           span: 4,
         }}
         wrapperCol={{
-          span: 14,
+          span: 20,
         }}
         layout="vertical"
         initialValues={{
@@ -45,10 +61,10 @@ const MissiyaEdit = () => {
       >
         <Form.Item label="Missiya: ">
           <TextArea
-            value={about}
+            value={mission}
             style={{ height: "350px" }}
             onChange={(e) => {
-              setAbout(e.target.value);
+              setMission(e.target.value);
             }}
           />
           <p
@@ -68,7 +84,7 @@ const MissiyaEdit = () => {
           <Button
             loading={loading}
             onClick={() => {
-              editAbout();
+              editMission();
             }}
           >
             Əlavə Et

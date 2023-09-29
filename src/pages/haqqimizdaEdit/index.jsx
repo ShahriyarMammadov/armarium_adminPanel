@@ -1,12 +1,29 @@
 import { Button, Form, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MissiyaEdit from "../missiyaEdit";
 import axios from "axios";
 
 const HaqqimizdaEdit = () => {
   const [loading, setLoading] = useState(false);
   const [about, setAbout] = useState("");
+
+  const getAboutData = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(
+        `https://armariumbackend-production.up.railway.app/about/getHaqqimizda/6515be22e9d3dcf856ed1311`
+      );
+      setAbout(data?.data?.about);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAboutData();
+  }, []);
 
   const editAbout = async () => {
     try {
@@ -34,7 +51,7 @@ const HaqqimizdaEdit = () => {
             span: 4,
           }}
           wrapperCol={{
-            span: 14,
+            span: 20,
           }}
           layout="vertical"
           initialValues={{
@@ -47,6 +64,7 @@ const HaqqimizdaEdit = () => {
         >
           <Form.Item label="Haqqımızda: ">
             <TextArea
+              disabled={loading}
               value={about}
               style={{ height: "350px" }}
               onChange={(e) => {

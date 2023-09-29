@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./index.scss";
 import {
   Button,
@@ -19,6 +19,9 @@ const addReferencePage = () => {
   const [coverImage, setCoverImage] = useState("");
   const [images, setİmages] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const coverImageRef = useRef(null);
+  const imageRef = useRef(null);
 
   const { Text } = Typography;
 
@@ -94,6 +97,8 @@ const addReferencePage = () => {
       setReferenceName("");
       setCoverImage("");
       setİmages([]);
+      coverImageRef.current.value = null;
+      imageRef.current.value = null;
       getAllReference();
       setLoading(false);
     } catch (error) {
@@ -167,15 +172,17 @@ const addReferencePage = () => {
                     );
                   })}
                 </div>
-                <div className="sliceBtn">
-                  <button
-                    onClick={() => {
-                      setSliceCount(sliceCount + 5);
-                    }}
-                  >
-                    DAHA ÇOX
-                  </button>
-                </div>
+                {reference?.length > 6 && reference?.length > sliceCount ? (
+                  <div className="sliceBtn">
+                    <button
+                      onClick={() => {
+                        setSliceCount(sliceCount + 5);
+                      }}
+                    >
+                      DAHA ÇOX
+                    </button>
+                  </div>
+                ) : null}
               </>
             </div>
           )}
@@ -212,7 +219,12 @@ const addReferencePage = () => {
           />
         </Form.Item>
         <Form.Item label="Örtük Şəkli: ">
-          <input type="file" name="coverImage" onChange={handleFileChange} />
+          <input
+            type="file"
+            name="coverImage"
+            onChange={handleFileChange}
+            ref={coverImageRef}
+          />
         </Form.Item>
         <Form.Item label="Referansa Aid Şəklillər: ">
           <input
@@ -220,6 +232,7 @@ const addReferencePage = () => {
             name="images"
             onChange={handleImagesChange}
             multiple
+            ref={imageRef}
           />
           <p
             style={{

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./index.scss";
 import { Button, Form, Input, Popconfirm, message } from "antd";
 import axios from "axios";
@@ -23,6 +23,9 @@ const addDecorPage = () => {
   const [decor, setAllDecor] = useState([]);
 
   const [selectedDecor, setSelectedDecor] = useState([]);
+
+  const coverImageRef = useRef(null);
+  const imageRef = useRef(null);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -147,6 +150,8 @@ const addDecorPage = () => {
       setİmages([]);
       setDecorDescription("");
       setDecorDescription("");
+      coverImageRef.current.value = null;
+      imageRef.current.value = null;
       setLoading(false);
       getAllDecor();
     } catch (error) {
@@ -268,7 +273,12 @@ const addDecorPage = () => {
           />
         </Form.Item>
         <Form.Item label="Örtük Şəkli: ">
-          <input type="file" name="coverImage" onChange={handleFileChange} />
+          <input
+            type="file"
+            name="coverImage"
+            onChange={handleFileChange}
+            ref={coverImageRef}
+          />
         </Form.Item>
         <Form.Item label="Şəklillər: ">
           <input
@@ -276,6 +286,7 @@ const addDecorPage = () => {
             name="images"
             onChange={handleImagesChange}
             multiple
+            ref={imageRef}
           />
           <p
             style={{
