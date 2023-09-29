@@ -143,7 +143,7 @@ const AddVacancyPage = () => {
           span: 4,
         }}
         wrapperCol={{
-          span: 14,
+          span: 20,
         }}
         layout="vertical"
         initialValues={{
@@ -152,7 +152,7 @@ const AddVacancyPage = () => {
         // onValuesChange={onFormLayoutChange}
         size={"default"}
         style={{
-          margin: "0 auto",
+          margin: "30px auto",
         }}
       >
         <Form.Item label="Vakansiyanın Adı:">

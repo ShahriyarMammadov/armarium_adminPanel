@@ -3,6 +3,7 @@ import TextArea from "antd/es/input/TextArea";
 import React, { useEffect, useState } from "react";
 import MissiyaEdit from "../missiyaEdit";
 import axios from "axios";
+import ZemanetEdit from "../zemanetEdit";
 
 const HaqqimizdaEdit = () => {
   const [loading, setLoading] = useState(false);
@@ -99,6 +100,9 @@ const HaqqimizdaEdit = () => {
       <hr />
       <h3>Missiya</h3>
       <MissiyaEdit />
+      <hr />
+      <h3>Zəmanət</h3>
+      <ZemanetEdit />
     </>
   );
 };
