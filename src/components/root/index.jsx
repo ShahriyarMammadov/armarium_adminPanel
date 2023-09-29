@@ -23,8 +23,6 @@ const AdminRoot = () => {
           }
         );
 
-        console.log(data?.success);
-
         if (!data?.success) {
           sessionStorage.removeItem("id");
           console.log(data?.message);

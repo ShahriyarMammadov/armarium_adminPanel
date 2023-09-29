@@ -73,7 +73,6 @@ const addDecorPage = () => {
         `https://armariumbackend-production.up.railway.app/selectedDecor/addNameToSelectedDecor`,
         { selectedNames: selectedDecorName }
       );
-      console.log(data);
 
       message.success(data.message);
 
