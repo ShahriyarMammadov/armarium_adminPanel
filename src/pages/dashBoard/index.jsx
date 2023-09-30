@@ -17,6 +17,7 @@ import ContactPage from "../contactPage";
 import AddDoorPage from "../addDoorPage";
 import HaqqimizdaEdit from "../haqqimizdaEdit";
 import AddSertifikatPage from "../../components/addSertifikat";
+import BackGroundChangePage from "../backGroundImagesChangePage";
 
 const DashBoard = () => {
   const { Header, Content, Footer, Sider } = Layout;
@@ -67,7 +68,12 @@ const DashBoard = () => {
     {
       key: "9",
       title: "Haqqımızda Redaktə et",
-      icon: <i className="fa-regular fa-id-badge"></i>,
+      icon: <i className="fa-regular fa-id-card"></i>,
+    },
+    {
+      key: "10",
+      title: "ArxaPlan Şəkillərini Redaktə et",
+      icon: <i className="fa-solid fa-panorama"></i>,
     },
   ]);
 
@@ -127,6 +133,8 @@ const DashBoard = () => {
         return <ContactPage />;
       case "9":
         return <HaqqimizdaEdit />;
+      case "10":
+        return <BackGroundChangePage />;
       default:
         return null;
     }
