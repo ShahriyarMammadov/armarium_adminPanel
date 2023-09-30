@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./index.scss";
 import { Button, Image, Modal, message } from "antd";
 import axios from "axios";
+import LoadingComponent from "../../components/loading";
 
 const BackGroundChangePage = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
@@ -15,7 +16,6 @@ const BackGroundChangePage = () => {
 
   const getAllImages = async () => {
     try {
-      setLoading(true);
       const { data } = await axios.get(
         `https://armariumbackend-production.up.railway.app/backImage/getAllBackImage`
       );
@@ -43,6 +43,7 @@ const BackGroundChangePage = () => {
       const imageUrl = URL.createObjectURL(coverImage);
       const newImageUrls = [...imageUrls];
       newImageUrls[selectedImageIndex].coverImage = imageUrl;
+      console.log(newImageUrls);
       setAllBackImages(newImageUrls);
 
       setOpen(false);
@@ -50,6 +51,8 @@ const BackGroundChangePage = () => {
       console.log(error);
     }
   };
+
+  console.log(imageUrls);
 
   const handleCancel = () => {
     setOpen(false);
@@ -62,6 +65,7 @@ const BackGroundChangePage = () => {
 
   // IMAGE EDIT
   const handleApprove = async (pageName) => {
+    console.log(pageName);
     try {
       if (pageName.length === 0 || coverImage.length === 0) {
         return message.error(
@@ -85,48 +89,52 @@ const BackGroundChangePage = () => {
 
   return (
     <div id="BackGroundChangePage">
-      <div className="images">
-        {imageUrls.map((e, index) => (
-          <div key={index} className="image">
-            <h5 className="siteName">{e?.page}</h5>
-            <i
-              className="fa-regular fa-pen-to-square"
-              onClick={() => {
-                setSelectedImageIndex(index);
-                showModal();
-              }}
-            ></i>
-            {e?.coverImage.slice(0, 4) === "blob" ? (
-              <Image src={e?.coverImage} alt={e?.page} />
-            ) : (
-              <Image
-                src={`https://armariumbackend-production.up.railway.app/images/${e?.coverImage}`}
-                alt={e?.page}
-              />
-            )}
+      {loading ? (
+        <LoadingComponent />
+      ) : (
+        <div className="images">
+          {imageUrls.map((e, index) => (
+            <div key={index} className="image">
+              <h5 className="siteName">{e?.page}</h5>
+              <i
+                className="fa-regular fa-pen-to-square"
+                onClick={() => {
+                  setSelectedImageIndex(index);
+                  showModal();
+                }}
+              ></i>
+              {e?.coverImage.slice(0, 4) === "blob" ? (
+                <Image src={e?.coverImage} alt={e?.page} />
+              ) : (
+                <Image
+                  src={`https://armariumbackend-production.up.railway.app/images/${e?.coverImage}`}
+                  alt={e?.page}
+                />
+              )}
 
-            {selectedImageIndex === index ? (
-              <div className="buttons">
-                <Button
-                  type="dashed"
-                  loading={loading}
-                  onClick={() => handleApprove(e?.page)}
-                >
-                  Təsdiqlə
-                </Button>
-                <Button
-                  type="dashed"
-                  loading={loading}
-                  onClick={() => getAllImages()}
-                >
-                  İmtina et
-                </Button>
-              </div>
-            ) : null}
-            <hr />
-          </div>
-        ))}
-      </div>
+              {selectedImageIndex === index ? (
+                <div className="buttons">
+                  <Button
+                    type="dashed"
+                    loading={loading}
+                    onClick={() => handleApprove(e?.page)}
+                  >
+                    Təsdiqlə
+                  </Button>
+                  <Button
+                    type="dashed"
+                    loading={loading}
+                    onClick={() => getAllImages()}
+                  >
+                    İmtina et
+                  </Button>
+                </div>
+              ) : null}
+              <hr />
+            </div>
+          ))}
+        </div>
+      )}
 
       <Modal
         open={open}
