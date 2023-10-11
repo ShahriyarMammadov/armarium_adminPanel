@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import MissiyaEdit from "../missiyaEdit";
 import axios from "axios";
 import ZemanetEdit from "../zemanetEdit";
+import PointSalesEdit from "../pointSales";
 
 const HaqqimizdaEdit = () => {
   const [loading, setLoading] = useState(false);
@@ -103,6 +104,8 @@ const HaqqimizdaEdit = () => {
       <hr />
       <h3>Zəmanət</h3>
       <ZemanetEdit />
+      <h3>Satış Nöqtələri</h3>
+      <PointSalesEdit />
     </>
   );
 };
