@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./index.scss";
 import { Button, Collapse, Form, Input, Popconfirm, message } from "antd";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import LoadingComponent from "../../components/loading";
-import TextArea from "antd/es/input/TextArea";
+import { Editor } from "@tinymce/tinymce-react";
 
 const AddVacancyPage = () => {
   const { id } = useParams();
@@ -13,6 +13,8 @@ const AddVacancyPage = () => {
   const [loading, setLoading] = useState(true);
 
   const [allVacancies, setAllVacancies] = useState([]);
+
+  const editorRef = useRef(null);
 
   const getAllVacancies = async () => {
     try {
@@ -106,14 +108,11 @@ const AddVacancyPage = () => {
     ),
     children: (
       <>
-        <p>
-          {data?.description?.split("<br />").map((line, lineIndex) => (
-            <React.Fragment key={lineIndex}>
-              {line}
-              <br />
-            </React.Fragment>
-          ))}
-        </p>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: data?.description,
+          }}
+        ></div>
       </>
     ),
   }));
@@ -143,7 +142,7 @@ const AddVacancyPage = () => {
           span: 4,
         }}
         wrapperCol={{
-          span: 20,
+          span: 30,
         }}
         layout="vertical"
         initialValues={{
@@ -169,24 +168,48 @@ const AddVacancyPage = () => {
           />
         </Form.Item>
         <Form.Item label="Tələblər: ">
-          <TextArea
+          <Editor
+            onInit={(evt, editor) => (editorRef.current = editor)}
             value={description}
-            style={{ height: "100px" }}
-            onChange={(e) => {
-              setVacancyDescription(e.target.value);
+            onEditorChange={(content, editor) => {
+              setVacancyDescription(content);
+            }}
+            init={{
+              height: 500,
+              menubar: false,
+              plugins: [
+                "a11ychecker",
+                "advlist",
+                "advcode",
+                "advtable",
+                "autolink",
+                "checklist",
+                "export",
+                "lists",
+                "link",
+                "image",
+                "charmap",
+                "preview",
+                "anchor",
+                "searchreplace",
+                "visualblocks",
+                "powerpaste",
+                "fullscreen",
+                "formatpainter",
+                "insertdatetime",
+                "media",
+                "table",
+                "help",
+                "wordcount",
+              ],
+              toolbar:
+                "undo redo | casechange blocks | fontselect fontsizeselect | bold italic backcolor | " +
+                "alignleft aligncenter alignright alignjustify | " +
+                "bullist numlist checklist outdent indent | removeformat | a11ycheck code table help image insertdatetime link anchor | fullscreen visualblocks formatpainter searchreplace | powerpaste charmap",
+              content_style:
+                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
             }}
           />
-          <p
-            style={{
-              color: "red",
-              fontSize: "12px",
-              margin: "0",
-              fontWeight: "900",
-            }}
-          >
-            TƏLƏBLƏR ƏLAVƏ EDƏRKƏN CÜMLƏNİN YENİ SƏTİRDƏN BAŞLAMASI ÜÇÜN ƏVVƏLKİ
-            CÜMLƏNİN SONUNA {`<br />`} ƏLAVƏ EDİN
-          </p>
         </Form.Item>
 
         <Form.Item label="Əlavə Edilsin?">

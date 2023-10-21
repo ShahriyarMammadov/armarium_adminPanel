@@ -4,7 +4,7 @@ import { Button, Form, Input, Popconfirm, message } from "antd";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import LoadingComponent from "../../components/loading";
-import TextArea from "antd/es/input/TextArea";
+import { Editor } from "@tinymce/tinymce-react";
 
 const AddBlogPage = () => {
   const { id } = useParams();
@@ -14,6 +14,8 @@ const AddBlogPage = () => {
   const [loading, setLoading] = useState(true);
 
   const coverImageRef = useRef(null);
+
+  const editorRef = useRef(null);
 
   const [sliceCount, setSliceCount] = useState(4);
 
@@ -139,19 +141,12 @@ const AddBlogPage = () => {
                             ></i>
                           </Popconfirm>
                         </div>
-                        <div className="description">
-                          <p>
-                            {e?.description
-                              ?.slice(0, 250)
-                              ?.split("<br />")
-                              ?.map((line, lineIndex) => (
-                                <React.Fragment key={lineIndex}>
-                                  {line}. . .
-                                  <br />
-                                </React.Fragment>
-                              ))}
-                          </p>
-                        </div>
+                        <div
+                          className="description"
+                          dangerouslySetInnerHTML={{
+                            __html: e?.description?.slice(0, 250),
+                          }}
+                        ></div>
                       </div>
                     </div>
                   );
@@ -187,7 +182,7 @@ const AddBlogPage = () => {
           span: 4,
         }}
         wrapperCol={{
-          span: 20,
+          span: 30,
         }}
         layout="vertical"
         initialValues={{
@@ -221,25 +216,49 @@ const AddBlogPage = () => {
             BLOQ-UN ADININ SONUNA `. , ? !` VƏ S. ƏLAVƏ ETMƏYİN
           </p>
         </Form.Item>
-        <Form.Item label="Bloq Məlumatı: ">
-          <TextArea
+        <Form.Item label="Bloq Məlumatı">
+          <Editor
+            onInit={(evt, editor) => (editorRef.current = editor)}
             value={description}
-            style={{ height: "100px" }}
-            onChange={(e) => {
-              setBlogDescription(e.target.value);
+            onEditorChange={(content, editor) => {
+              setBlogDescription(content);
+            }}
+            init={{
+              height: 500,
+              menubar: false,
+              plugins: [
+                "a11ychecker",
+                "advlist",
+                "advcode",
+                "advtable",
+                "autolink",
+                "checklist",
+                "export",
+                "lists",
+                "link",
+                "image",
+                "charmap",
+                "preview",
+                "anchor",
+                "searchreplace",
+                "visualblocks",
+                "powerpaste",
+                "fullscreen",
+                "formatpainter",
+                "insertdatetime",
+                "media",
+                "table",
+                "help",
+                "wordcount",
+              ],
+              toolbar:
+                "undo redo | casechange blocks | fontselect fontsizeselect | bold italic backcolor | " +
+                "alignleft aligncenter alignright alignjustify | " +
+                "bullist numlist checklist outdent indent | removeformat | a11ycheck code table help image insertdatetime link anchor | fullscreen visualblocks formatpainter searchreplace | powerpaste charmap",
+              content_style:
+                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
             }}
           />
-          <p
-            style={{
-              color: "red",
-              fontSize: "12px",
-              margin: "0",
-              fontWeight: "900",
-            }}
-          >
-            BLOQ MƏLUMATI ƏLAVƏ EDƏRKƏN CÜMLƏNİN YENİ SƏTİRDƏN BAŞLAMASI ÜÇÜN
-            ƏVVƏLKİ CÜMLƏNİN SONUNA {`<br />`} ƏLAVƏ EDİN
-          </p>
         </Form.Item>
         <Form.Item label="Örtük Şəkli: ">
           <input

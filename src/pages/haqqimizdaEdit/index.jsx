@@ -1,10 +1,10 @@
 import { Button, Form, message } from "antd";
-import TextArea from "antd/es/input/TextArea";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MissiyaEdit from "../missiyaEdit";
 import axios from "axios";
 import ZemanetEdit from "../zemanetEdit";
 import PointSalesEdit from "../pointSales";
+import { Editor } from "@tinymce/tinymce-react";
 
 const HaqqimizdaEdit = () => {
   const [loading, setLoading] = useState(false);
@@ -43,12 +43,57 @@ const HaqqimizdaEdit = () => {
       console.log(error);
     }
   };
+  const editorRef = useRef(null);
 
   return (
     <>
+      <p>Editorun üzərində çıxan bildirişə (This Domain is not registered...) əhəmiyyət verməyin</p>
       <h3>Haqqımızda</h3>
       <div id="haqqimizdaEdit">
-        <Form
+        <Editor
+          onInit={(evt, editor) => (editorRef.current = editor)}
+          value={about}
+          onEditorChange={(content, editor) => {
+            setAbout(content);
+          }}
+          init={{
+            height: 500,
+            menubar: false,
+            plugins: [
+              "a11ychecker",
+              "advlist",
+              "advcode",
+              "advtable",
+              "autolink",
+              "checklist",
+              "export",
+              "lists",
+              "link",
+              "image",
+              "charmap",
+              "preview",
+              "anchor",
+              "searchreplace",
+              "visualblocks",
+              "powerpaste",
+              "fullscreen",
+              "formatpainter",
+              "insertdatetime",
+              "media",
+              "table",
+              "help",
+              "wordcount",
+            ],
+            toolbar:
+              "undo redo | casechange blocks | fontselect fontsizeselect | bold italic backcolor | " +
+              "alignleft aligncenter alignright alignjustify | " +
+              "bullist numlist checklist outdent indent | removeformat | a11ycheck code table help image insertdatetime link anchor | fullscreen visualblocks formatpainter searchreplace | powerpaste charmap",
+            content_style:
+              "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+          }}
+        />
+
+        {/* <Form
           labelCol={{
             span: 4,
           }}
@@ -85,18 +130,18 @@ const HaqqimizdaEdit = () => {
               {`<br />`} ƏLAVƏ EDİN
             </p>
           </Form.Item>
+        </Form> */}
 
-          <Form.Item label="Əlavə Edilsin?">
-            <Button
-              loading={loading}
-              onClick={() => {
-                editAbout();
-              }}
-            >
-              Əlavə Et
-            </Button>
-          </Form.Item>
-        </Form>
+        <Form.Item label="Əlavə Edilsin?">
+          <Button
+            loading={loading}
+            onClick={() => {
+              editAbout();
+            }}
+          >
+            Əlavə Et
+          </Button>
+        </Form.Item>
       </div>
       <hr />
       <h3>Missiya</h3>

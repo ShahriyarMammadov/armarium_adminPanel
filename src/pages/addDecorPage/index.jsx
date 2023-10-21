@@ -238,7 +238,7 @@ const addDecorPage = () => {
           span: 4,
         }}
         wrapperCol={{
-          span: 20,
+          span: 30,
         }}
         layout="vertical"
         initialValues={{
@@ -361,7 +361,7 @@ const addDecorPage = () => {
             span: 4,
           }}
           wrapperCol={{
-            span: 14,
+            span: 12,
           }}
           layout="vertical"
           initialValues={{
