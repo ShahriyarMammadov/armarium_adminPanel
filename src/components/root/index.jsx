@@ -38,9 +38,8 @@ const AdminRoot = () => {
 
   return (
     <>
-{/*       <AdminHeader />
-      <Outlet /> */}
-      <h1 style={{display:"flex",justifyContent:"center",alignItems:"center",width:"100vw",height:"100vh",padding:"0",margin:"0"}}>SAYT BAĞLIDIR.</h1>
+      <AdminHeader />
+      <Outlet />
     </>
   );
 };
