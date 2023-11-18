@@ -4,6 +4,7 @@ import { Button, Form, Input, Popconfirm, message } from "antd";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import LoadingComponent from "../../components/loading";
+import { Editor } from "@tinymce/tinymce-react";
 
 const addDecorPage = () => {
   const { id } = useParams();
@@ -26,6 +27,7 @@ const addDecorPage = () => {
 
   const coverImageRef = useRef(null);
   const imageRef = useRef(null);
+  const editorRef = useRef(null);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -127,8 +129,8 @@ const addDecorPage = () => {
         description.length === 0
       ) {
         return message.error("Zəhmət olmasa xanaları tam doldurun!");
-      } else if (images.length > 14) {
-        return message.error("14-dən çox şəkil yükləmək olmaz!");
+      } else if (images.length > 24) {
+        return message.error("25-dən çox şəkil yükləmək olmaz!");
       }
       setLoading(true);
       const formData = new FormData();
@@ -263,11 +265,46 @@ const addDecorPage = () => {
           />
         </Form.Item>
         <Form.Item label="Dekor Haqqında Məlumat: ">
-          <TextArea
+          <Editor
+            onInit={(evt, editor) => (editorRef.current = editor)}
             value={description}
-            style={{ height: "100px" }}
-            onChange={(e) => {
-              setDecorDescription(e.target.value);
+            onEditorChange={(content, editor) => {
+              setDecorDescription(content);
+            }}
+            init={{
+              height: 500,
+              menubar: false,
+              plugins: [
+                "a11ychecker",
+                "advlist",
+                "advcode",
+                "advtable",
+                "autolink",
+                "checklist",
+                "export",
+                "lists",
+                "link",
+                "image",
+                "charmap",
+                "preview",
+                "anchor",
+                "searchreplace",
+                "visualblocks",
+                "powerpaste",
+                "fullscreen",
+                "formatpainter",
+                "insertdatetime",
+                "media",
+                "table",
+                "help",
+                "wordcount",
+              ],
+              toolbar:
+                "undo redo | casechange blocks | fontselect fontsizeselect | bold italic backcolor | " +
+                "alignleft aligncenter alignright alignjustify | " +
+                "bullist numlist checklist outdent indent | removeformat | a11ycheck code table help image insertdatetime link anchor | fullscreen visualblocks formatpainter searchreplace | powerpaste charmap emojis",
+              content_style:
+                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
             }}
           />
         </Form.Item>
@@ -295,7 +332,7 @@ const addDecorPage = () => {
               fontWeight: "900",
             }}
           >
-            BİR DƏFƏYƏ MAKSİMUM 14 ƏDƏD ŞƏKİL YÜKLƏMƏK MÜMKÜNDÜR
+            BİR DƏFƏYƏ MAKSİMUM 25 ƏDƏD ŞƏKİL YÜKLƏMƏK MÜMKÜNDÜR
           </p>
         </Form.Item>
 

@@ -95,8 +95,6 @@ const AddNewsPage = () => {
     }
   };
 
-  console.log(news);
-
   return (
     <div id="adminNews">
       {loading ? (

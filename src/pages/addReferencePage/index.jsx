@@ -78,8 +78,8 @@ const addReferencePage = () => {
     try {
       if (name.length === 0 || coverImage.length === 0 || images.length === 0) {
         return message.error("Zəhmət olmasa xanaları tam doldurun!");
-      } else if (images.length > 14) {
-        return message.error("14-dən çox şəkil yükləmək olmaz!");
+      } else if (images.length > 29) {
+        return message.error("30-dan çox şəkil yükləmək olmaz!");
       }
       setLoading(true);
       const formData = new FormData();
@@ -242,7 +242,7 @@ const addReferencePage = () => {
               fontWeight: "900",
             }}
           >
-            BİR DƏFƏYƏ MAKSİMUM 14 ƏDƏD ŞƏKİL YÜKLƏMƏK MÜMKÜNDÜR.
+            BİR DƏFƏYƏ MAKSİMUM 30 ƏDƏD ŞƏKİL YÜKLƏMƏK MÜMKÜNDÜR.
           </p>
         </Form.Item>
 
