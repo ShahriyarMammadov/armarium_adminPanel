@@ -47,7 +47,6 @@ const HaqqimizdaEdit = () => {
 
   return (
     <>
-      <p>Editorun üzərində çıxan bildirişə (This Domain is not registered...) əhəmiyyət verməyin</p>
       <h3>Haqqımızda</h3>
       <div id="haqqimizdaEdit">
         <Editor
@@ -60,13 +59,31 @@ const HaqqimizdaEdit = () => {
             height: 500,
             menubar: false,
             plugins: [
-              "a11ychecker",
+              // "a11ychecker",
+              // "advlist",
+              // "advcode",
+              // "advtable",
+              // "autolink",
+              // "checklist",
+              // "export",
+              // "lists",
+              // "link",
+              // "image",
+              // "charmap",
+              // "preview",
+              // "anchor",
+              // "searchreplace",
+              // "visualblocks",
+              // "powerpaste",
+              // "fullscreen",
+              // "formatpainter",
+              // "insertdatetime",
+              // "media",
+              // "table",
+              // "help",
+              // "wordcount",
               "advlist",
-              "advcode",
-              "advtable",
               "autolink",
-              "checklist",
-              "export",
               "lists",
               "link",
               "image",
@@ -75,9 +92,7 @@ const HaqqimizdaEdit = () => {
               "anchor",
               "searchreplace",
               "visualblocks",
-              "powerpaste",
               "fullscreen",
-              "formatpainter",
               "insertdatetime",
               "media",
               "table",
